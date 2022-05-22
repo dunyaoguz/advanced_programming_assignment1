@@ -32,16 +32,29 @@ ArrayList::ArrayList(ArrayList&& arrayToMove)
 // getters
 int ArrayList::getCapacity() const 
 {
-    return capacity;
+    return this->capacity;
 }
 
 int ArrayList::getUsed() const 
 {
-    return used;
+    return this->used;
 }
 
 int *ArrayList::getPArray() const 
 {
-    return pArray;
+    return this->pArray;
 }
 
+std::ostream &operator<<(std::ostream &output, const IntList &someList)
+{
+    //base case if used is 0, then we have a fresh/empty array; return empty string
+    if (someList.getUsed() == 0)
+    {
+        return output;
+    }
+    for (int i = 0; i < someList.getUsed(); i++)
+    {
+        output << someList.dynarray[i] << " ";
+    }
+    return output;
+}
