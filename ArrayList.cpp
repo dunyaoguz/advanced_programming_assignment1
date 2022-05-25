@@ -68,6 +68,8 @@ ArrayList& ArrayList::operator=(ArrayList &&rhs)
         this->capacity = rhs.capacity;
         this->used = rhs.used;
         this->pArray = rhs.pArray;
+        rhs.capacity = 0;
+        rhs.used = 0;
         rhs.pArray = nullptr;
     }
     return *this;
@@ -176,10 +178,10 @@ ostream &operator<<(ostream &output, const ArrayList &listToPrint)
     return output;
 }
 
-void ArrayList::print(std::ostream &sout)
+void ArrayList::print(ostream &output) const
 {
     for (int i = 0; i < this->used; i++)
     {
-        sout << pArray[i] << ", ";
+        output << pArray[i] << " ";
     }
 }
