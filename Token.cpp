@@ -42,8 +42,12 @@ Token::Token(const Token& token)
 Token::Token(Token&& token)
 {
     cout << "Token move constructor is called." << endl;
-    this->cstr = token.c_str();
+    this->cstr = token.cstr;
+    this->frequency = token.frequency;
+    this->number_list = token.number_list;
     token.cstr = nullptr;
+    token.frequency = 0;
+    // token.number_list = nullptr; --> why is this not working?
 }
 
 // copy assignment operator
@@ -77,6 +81,7 @@ Token& Token::operator=(Token &&rhs)
         this->number_list = rhs.number_list;
         this->cstr = rhs.cstr;
         rhs.cstr = nullptr;
+        rhs.frequency = 0;
     }
     return *this;
 }
@@ -110,6 +115,7 @@ int Token::getFrequency() const
 void Token::addLineNumber(int line_num)
 {
     this->number_list.pushBack(line_num);
+    this->frequency++;
 }
 
 // returns the length of this token's cstr
@@ -154,14 +160,14 @@ ostream &operator<<(ostream &output, const Token &tokenToPrint)
     }
     for (int i = 0; i < tokenToPrint.size(); i++)
     {
-        output << tokenToPrint.c_str[i] << " ";
+        output << tokenToPrint.c_str()[i] << " ";
     }
     output << " " << tokenToPrint.number_list;
     return output;
 }
 
-void Token::print(ostream &sout) const
+void Token::print(ostream &output) const
 {
-    sout << this->cstr << endl;
-    sout << this->number_list << endl;
+    output << this->cstr << " " << "(" << this->frequency << ")";
+    output << " " << this->number_list << endl;
 }

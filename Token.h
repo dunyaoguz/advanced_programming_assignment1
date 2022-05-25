@@ -36,7 +36,7 @@ class Token
         void addLineNumber(int line_num);
         int size() const;
         int compare(const Token& aToken) const;
-        void print(ostream&) const;
+        void print(ostream &output) const;
 
         // >> operator overload
         friend ostream &operator<<(ostream &output, const Token &tokenToPrint);
