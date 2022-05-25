@@ -35,6 +35,7 @@ class ArrayList
         bool contains(int x) const;
         bool get(int position, int& value) const;
         void pushBack(int x);
+        void print(ostream&) const;
 
         // << operator overload
         friend ostream &operator<<(ostream &output, const ArrayList &listToPrint);

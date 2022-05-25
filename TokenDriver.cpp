@@ -22,7 +22,7 @@ int main()
     Token t2 = t1; // copy constructor (not copy assignment)
     t1.addLineNumber(11111);
     cout << "C) t1: "; t1.print(cout); cout << '\n';
-    cout << "D) t2: "; t2.print(cout); cout << '\n' 
+    cout << "D) t2: "; t2.print(cout); cout << '\n'; 
     t2 = t1; // copy assignment
     cout << "E) t1: "; t1.print(cout); cout << '\n';
     cout << "F) t2: "; t2.print(cout); cout << '\n';

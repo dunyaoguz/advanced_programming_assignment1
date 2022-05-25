@@ -2,6 +2,8 @@
 #include <cstring>
 #include <cctype>
 #include "ArrayList.h"
+#ifndef TOKEN_H
+#define TOKEN_H
 
 using namespace std;
 
@@ -10,25 +12,33 @@ class Token
     private: 
         char* cstr;                 // pointer to an array of characters storing the characters in this token
         int frequency;              // number of occurences of this token
-        ArrayList number_list;    // list of line numbers associated with this token
+        ArrayList number_list;      // list of line numbers associated with this token
 
     public:
-        // default constructor
-        Token() 
-        {
-            this->frequency = 0;
-            this->cstr[0] = '\0';
-        }
+        // constructors
+        Token();                                       // default constructor
+        Token(const char* chars, int line_num);        // normal constructor
+        Token(const Token& token);                     // copy constructor
+        Token(Token&& token);                          // move constructor
 
-        // normal constructor
-        Token(const char* chars, int line_num)
-        {
-            this->cstr = new char[strlen(chars)];
-            for (int i = 0; i < strlen(chars); i++)
-            {
-                this->cstr[i] = chars[i];
-            }
-            this->frequency = 1;
-            this->number_list.pushback(line_num);
-        }
-}
+        // assignment operators
+        Token& operator=(const Token& rhs);            // copy assignment operator
+        Token& operator=(Token&& rhs);                 // move assignment operator
+
+        ~Token();                                      // destructor
+
+        // getters
+        char *c_str() const; 
+        const ArrayList& getNumberList() const;
+        int getFrequency() const;
+
+        // member functions
+        void addLineNumber(int line_num);
+        int size() const;
+        int compare(const Token& aToken) const;
+        void print(ostream&) const;
+
+        // >> operator overload
+        friend ostream &operator<<(ostream &output, const Token &tokenToPrint);
+};
+#endif

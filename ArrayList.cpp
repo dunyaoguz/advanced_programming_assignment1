@@ -6,7 +6,7 @@ using namespace std;
 // default constructor
 ArrayList::ArrayList()         
 {
-    cout << "Default constructor is called." << endl;
+    cout << "Arraylist default constructor is called." << endl;
     this->capacity = 1;
     this->used = 0;
     this->pArray = new int[capacity];
@@ -15,7 +15,7 @@ ArrayList::ArrayList()
 // copy constructor
 ArrayList::ArrayList(const ArrayList &arrayToCopy) 
 {
-    cout << "Copy constructor is called." << endl;
+    cout << "Arraylist copy constructor is called." << endl;
     this->capacity = arrayToCopy.getCapacity();
     this->used = arrayToCopy.size();
     this->pArray = new int[capacity];
@@ -29,7 +29,7 @@ ArrayList::ArrayList(const ArrayList &arrayToCopy)
 // move constructor
 ArrayList::ArrayList(ArrayList&& arrayToMove) 
 {   
-    cout << "Move constructor is called." << endl;
+    cout << "Arraylist move constructor is called." << endl;
     this->capacity = arrayToMove.capacity;
     this->used = arrayToMove.used;
     this->pArray = arrayToMove.pArray;
@@ -41,13 +41,13 @@ ArrayList::ArrayList(ArrayList&& arrayToMove)
 // copy assignment operator
 ArrayList& ArrayList::operator=(const ArrayList &rhs)
 {   
-    cout << "Copy assignment operator is called." << endl;
+    cout << "Arraylist copy assignment operator is called." << endl;
     // if the addresses are not the same, proceed with copying
     if (&rhs != this)
     {
         this->capacity = rhs.getCapacity();
         this->used = rhs.size();
-        delete[] pArray; 
+        delete[] this->pArray; 
         this->pArray = new int[capacity];
 
         for (int i = 0; i < capacity; i++)
@@ -61,10 +61,10 @@ ArrayList& ArrayList::operator=(const ArrayList &rhs)
 // move assignment operator
 ArrayList& ArrayList::operator=(ArrayList &&rhs)
 {
-    cout << "Move assignment operator is called." << endl;
+    cout << "Arraylist move assignment operator is called." << endl;
     if (&rhs != this)
     {
-        delete[] pArray;
+        delete[] this->pArray;
         this->capacity = rhs.capacity;
         this->used = rhs.used;
         this->pArray = rhs.pArray;
@@ -76,7 +76,7 @@ ArrayList& ArrayList::operator=(ArrayList &&rhs)
 // destructor
 ArrayList::~ArrayList() 
 {
-    cout << "Destructor is called." << endl;
+    cout << "Arraylist destructor is called." << endl;
     delete[] this->pArray;
 }
 
@@ -174,4 +174,12 @@ ostream &operator<<(ostream &output, const ArrayList &listToPrint)
         output << listToPrint.pArray[i] << " ";
     }
     return output;
+}
+
+void ArrayList::print(std::ostream &sout)
+{
+    for (int i = 0; i < this->used; i++)
+    {
+        sout << pArray[i] << ", ";
+    }
 }
