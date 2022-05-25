@@ -1,3 +1,6 @@
+#include <iostream>
+#include "Token.h"
+
 #ifndef TOKENLIST_H_
 #define TOKENLIST_H_
 
@@ -24,8 +27,35 @@ class TokenList {
         TNode* head{ nullptr };         // points to the first node in the list
         TNode* tail{ nullptr };         // points to the last node in the list
         size_t size{ 0 };               // counts the number of noded in the list
+
+        bool remove(TNode* nodePtr);
+        TNode* lookup(const Token& aToken) const;
+        void addAfter(TNode* p, const Token& aToken);
     
     public:
-    
-    
+        // constructors
+        TokenList();                        // default constructor
+        TokenList(const TokenList& list);   // copy constructor
+        TokenList(TokenList&& list);        // move constructor
+
+        // assignment operators
+        TokenList& operator=(const TokenList& rhs);     // copy assignment operator
+        TokenList& operator=(TokenList&& rhs);          // move assignment operator
+
+        ~TokenList(); 
+
+        // member functions
+        bool empty() const;
+        size_t size() const;
+        void print(ostream &output) const;
+        const Token& front() const;
+        const Token& back() const;
+        void addSorted(const Token& aToken);
+        void addSorted(const string& str, int LineNum);
+        bool removeFront();
+        bool removeBack();
+        bool search(const Token& aToken) const;
+        void addFront(const Token& aToken);
+        void addBack(const Token& aToken);
 };
+#endif
