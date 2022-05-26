@@ -2,8 +2,6 @@
 #ifndef ARRAYLIST_H
 #define ARRAYLIST_H
 
-using namespace std;
-
 class ArrayList 
 {     
     private:
@@ -35,10 +33,10 @@ class ArrayList
         bool contains(int x) const;
         bool get(int position, int& value) const;
         void pushBack(int x);
-        void print(ostream &output) const;
+        void print(std::ostream &output) const;
 
         // << operator overload
-        friend ostream &operator<<(ostream &output, const ArrayList &listToPrint);
+        friend std::ostream &operator<<(std::ostream &output, const ArrayList &listToPrint);
 };
 #endif
 

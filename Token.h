@@ -5,8 +5,6 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-using namespace std;
-
 class Token 
 { 
     private: 
@@ -36,9 +34,9 @@ class Token
         void addLineNumber(int line_num);
         int size() const;
         int compare(const Token& aToken) const;
-        void print(ostream &output) const;
+        void print(std::ostream &output) const;
 
         // >> operator overload
-        friend ostream &operator<<(ostream &output, const Token &tokenToPrint);
+        friend std::ostream &operator<<(std::ostream &output, const Token &tokenToPrint);
 };
 #endif

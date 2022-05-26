@@ -1,12 +1,10 @@
 #include <iostream>
 #include "ArrayList.h"
 
-using namespace std;
-
 // default constructor
 ArrayList::ArrayList()         
 {
-    cout << "Arraylist default constructor is called." << endl;
+    std::cout << "Arraylist default constructor is called." << std::endl;
     this->capacity = 1;
     this->used = 0;
     this->pArray = new int[capacity];
@@ -15,7 +13,7 @@ ArrayList::ArrayList()
 // copy constructor
 ArrayList::ArrayList(const ArrayList &arrayToCopy) 
 {
-    cout << "Arraylist copy constructor is called." << endl;
+    std::cout << "Arraylist copy constructor is called." << std::endl;
     this->capacity = arrayToCopy.getCapacity();
     this->used = arrayToCopy.size();
     this->pArray = new int[capacity];
@@ -29,7 +27,7 @@ ArrayList::ArrayList(const ArrayList &arrayToCopy)
 // move constructor
 ArrayList::ArrayList(ArrayList&& arrayToMove) 
 {   
-    cout << "Arraylist move constructor is called." << endl;
+    std::cout << "Arraylist move constructor is called." << std::endl;
     this->capacity = arrayToMove.capacity;
     this->used = arrayToMove.used;
     this->pArray = arrayToMove.pArray;
@@ -41,7 +39,7 @@ ArrayList::ArrayList(ArrayList&& arrayToMove)
 // copy assignment operator
 ArrayList& ArrayList::operator=(const ArrayList &rhs)
 {   
-    cout << "Arraylist copy assignment operator is called." << endl;
+    std::cout << "Arraylist copy assignment operator is called." << std::endl;
     // if the addresses are not the same, proceed with copying
     if (&rhs != this)
     {
@@ -61,7 +59,7 @@ ArrayList& ArrayList::operator=(const ArrayList &rhs)
 // move assignment operator
 ArrayList& ArrayList::operator=(ArrayList &&rhs)
 {
-    cout << "Arraylist move assignment operator is called." << endl;
+    std::cout << "Arraylist move assignment operator is called." << std::endl;
     if (&rhs != this)
     {
         delete[] this->pArray;
@@ -78,7 +76,7 @@ ArrayList& ArrayList::operator=(ArrayList &&rhs)
 // destructor
 ArrayList::~ArrayList() 
 {
-    cout << "Arraylist destructor is called." << endl;
+    std::cout << "Arraylist destructor is called." << std::endl;
     delete[] this->pArray;
 }
 
@@ -164,7 +162,7 @@ void ArrayList::resize()
 }
 
 // << operator overload
-ostream &operator<<(ostream &output, const ArrayList &listToPrint)
+std::ostream &operator<<(std::ostream &output, const ArrayList &listToPrint)
 {
     // if used is 0, return empty string because we can't print anything
     if (listToPrint.size() == 0)
@@ -178,7 +176,7 @@ ostream &operator<<(ostream &output, const ArrayList &listToPrint)
     return output;
 }
 
-void ArrayList::print(ostream &output) const
+void ArrayList::print(std::ostream &output) const
 {
     for (int i = 0; i < this->used; i++)
     {

@@ -1,8 +1,6 @@
 #include <iostream>
 #include "TokenList.h"
 
-using namespace std;
-
 // default constructor
 TokenList()
 {

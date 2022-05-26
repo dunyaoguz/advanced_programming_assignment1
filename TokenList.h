@@ -47,7 +47,7 @@ class TokenList {
         // member functions
         bool empty() const;
         size_t size() const;
-        void print(ostream &output) const;
+        void print(std::ostream &output) const;
         const Token& front() const;
         const Token& back() const;
         void addSorted(const Token& aToken);

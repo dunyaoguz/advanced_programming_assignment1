@@ -27,7 +27,7 @@ Token::Token(const char* chars, int line_num)
 // copy constructor
 Token::Token(const Token& token)
 {
-    cout << "Token copy constructor is called." << endl;
+    std::cout << "Token copy constructor is called." << std::endl;
     this->frequency = token.getFrequency();
     this->number_list = token.getNumberList();
     this->cstr = new char[token.size()];
@@ -41,7 +41,7 @@ Token::Token(const Token& token)
 // move constructor
 Token::Token(Token&& token)
 {
-    cout << "Token move constructor is called." << endl;
+    std::cout << "Token move constructor is called." << std::endl;
     this->cstr = token.cstr;
     this->frequency = token.frequency;
     this->number_list = token.number_list;
@@ -53,7 +53,7 @@ Token::Token(Token&& token)
 // copy assignment operator
 Token& Token::operator=(const Token& rhs)
 {
-    cout << "Token copy assignment operator is called." << endl;
+    std::cout << "Token copy assignment operator is called." << std::endl;
     // if the addresses are not the same, proceed with copying
     if (&rhs != this)
     {
@@ -73,7 +73,7 @@ Token& Token::operator=(const Token& rhs)
 // move assignment operator
 Token& Token::operator=(Token &&rhs)
 {
-    cout << "Token move assignment operator is called." << endl;
+    std::cout << "Token move assignment operator is called." << std::endl;
     if (&rhs != this)
     {
         delete[] this->cstr;
@@ -89,7 +89,7 @@ Token& Token::operator=(Token &&rhs)
 // destructor
 Token::~Token()
 {
-    cout << "Token destructor is called." << endl;
+    std::cout << "Token destructor is called." << std::endl;
     delete[] this->cstr;
 }
 
@@ -151,7 +151,7 @@ int Token::compare(const Token& aToken) const
 
 // << operator overload
 // prints this token's cstr followed by its number list
-ostream &operator<<(ostream &output, const Token &tokenToPrint)
+std::ostream &operator<<(std::ostream &output, const Token &tokenToPrint)
 {
     // if used is 0, return empty string because we can't print anything
     if (tokenToPrint.size() == 0)
@@ -166,7 +166,7 @@ ostream &operator<<(ostream &output, const Token &tokenToPrint)
     return output;
 }
 
-void Token::print(ostream &output) const
+void Token::print(std::ostream &output) const
 {
     output << this->cstr << " " << "(" << this->frequency << ")";
     output << " " << this->number_list << endl;
