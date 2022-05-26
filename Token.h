@@ -14,10 +14,10 @@ class Token
 
     public:
         // constructors
-        Token();                                       // default constructor
-        Token(const char* chars, int line_num);        // normal constructor
-        Token(const Token& token);                     // copy constructor
-        Token(Token&& token);                          // move constructor
+        Token();                                                // default constructor
+        explicit Token(const char* chars, int line_num);        // normal constructor
+        Token(const Token& token);                              // copy constructor
+        Token(Token&& token);                                   // move constructor
 
         // assignment operators
         Token& operator=(const Token& rhs);            // copy assignment operator

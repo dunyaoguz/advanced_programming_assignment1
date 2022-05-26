@@ -26,7 +26,7 @@ class TokenList {
     private:
         TNode* head{ nullptr };         // points to the first node in the list
         TNode* tail{ nullptr };         // points to the last node in the list
-        size_t size{ 0 };               // counts the number of noded in the list
+        size_t size{ 0 };               // counts the number of nodes in the list
 
         bool remove(TNode* nodePtr);
         TNode* lookup(const Token& aToken) const;
@@ -42,7 +42,7 @@ class TokenList {
         TokenList& operator=(const TokenList& rhs);     // copy assignment operator
         TokenList& operator=(TokenList&& rhs);          // move assignment operator
 
-        ~TokenList(); 
+        ~TokenList();                                   // destructor
 
         // member functions
         bool empty() const;

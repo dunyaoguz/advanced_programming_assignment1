@@ -28,9 +28,9 @@ ArrayList::ArrayList(const ArrayList &arrayToCopy)
 ArrayList::ArrayList(ArrayList&& arrayToMove) 
 {   
     std::cout << "Arraylist move constructor is called." << std::endl;
-    this->capacity = arrayToMove.capacity;
-    this->used = arrayToMove.used;
-    this->pArray = arrayToMove.pArray;
+    this->capacity = arrayToMove.getCapacity();
+    this->used = arrayToMove.size();
+    this->pArray = arrayToMove.getPArray();
     arrayToMove.capacity = 0;
     arrayToMove.used = 0;
     arrayToMove.pArray = nullptr;
@@ -63,9 +63,9 @@ ArrayList& ArrayList::operator=(ArrayList &&rhs)
     if (&rhs != this)
     {
         delete[] this->pArray;
-        this->capacity = rhs.capacity;
-        this->used = rhs.used;
-        this->pArray = rhs.pArray;
+        this->capacity = rhs.getCapacity();
+        this->used = rhs.size();
+        this->pArray = rhs.getPArray();
         rhs.capacity = 0;
         rhs.used = 0;
         rhs.pArray = nullptr;

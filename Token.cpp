@@ -42,12 +42,11 @@ Token::Token(const Token& token)
 Token::Token(Token&& token)
 {
     std::cout << "Token move constructor is called." << std::endl;
-    this->cstr = token.cstr;
-    this->frequency = token.frequency;
-    this->number_list = token.number_list;
+    this->cstr = token.c_str();
+    this->number_list = std::move(token.number_list);
+    this->frequency = token.getFrequency();
     token.cstr = nullptr;
     token.frequency = 0;
-    // token.number_list = nullptr; --> why is this not working?
 }
 
 // copy assignment operator
@@ -77,9 +76,9 @@ Token& Token::operator=(Token &&rhs)
     if (&rhs != this)
     {
         delete[] this->cstr;
-        this->frequency = rhs.frequency;
-        this->number_list = rhs.number_list;
-        this->cstr = rhs.cstr;
+        this->frequency = rhs.getFrequency();
+        this->number_list = std::move(rhs.number_list);
+        this->cstr = rhs.c_str();
         rhs.cstr = nullptr;
         rhs.frequency = 0;
     }
