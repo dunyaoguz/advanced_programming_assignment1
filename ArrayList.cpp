@@ -4,7 +4,7 @@
 // default constructor
 ArrayList::ArrayList()         
 {
-    std::cout << "Arraylist default constructor is called." << std::endl;
+    // std::cout << "Arraylist default constructor is called." << std::endl;
     this->capacity = 1;
     this->used = 0;
     this->pArray = new int[capacity];
@@ -13,7 +13,7 @@ ArrayList::ArrayList()
 // copy constructor
 ArrayList::ArrayList(const ArrayList &arrayToCopy) 
 {
-    std::cout << "Arraylist copy constructor is called." << std::endl;
+    // std::cout << "Arraylist copy constructor is called." << std::endl;
     this->capacity = arrayToCopy.getCapacity();
     this->used = arrayToCopy.size();
     this->pArray = new int[capacity];
@@ -27,7 +27,7 @@ ArrayList::ArrayList(const ArrayList &arrayToCopy)
 // move constructor
 ArrayList::ArrayList(ArrayList&& arrayToMove) 
 {   
-    std::cout << "Arraylist move constructor is called." << std::endl;
+    // std::cout << "Arraylist move constructor is called." << std::endl;
     this->capacity = arrayToMove.getCapacity();
     this->used = arrayToMove.size();
     this->pArray = arrayToMove.getPArray();
@@ -39,7 +39,7 @@ ArrayList::ArrayList(ArrayList&& arrayToMove)
 // copy assignment operator
 ArrayList& ArrayList::operator=(const ArrayList &rhs)
 {   
-    std::cout << "Arraylist copy assignment operator is called." << std::endl;
+    // std::cout << "Arraylist copy assignment operator is called." << std::endl;
     // if the addresses are not the same, proceed with copying
     if (&rhs != this)
     {
@@ -59,7 +59,7 @@ ArrayList& ArrayList::operator=(const ArrayList &rhs)
 // move assignment operator
 ArrayList& ArrayList::operator=(ArrayList &&rhs)
 {
-    std::cout << "Arraylist move assignment operator is called." << std::endl;
+    // std::cout << "Arraylist move assignment operator is called." << std::endl;
     if (&rhs != this)
     {
         delete[] this->pArray;
@@ -76,7 +76,7 @@ ArrayList& ArrayList::operator=(ArrayList &&rhs)
 // destructor
 ArrayList::~ArrayList() 
 {
-    std::cout << "Arraylist destructor is called." << std::endl;
+    // std::cout << "Arraylist destructor is called." << std::endl;
     delete[] this->pArray;
 }
 

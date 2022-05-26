@@ -1,26 +1,24 @@
 #include <iostream>
+#include "Token.h"
 #include "TokenList.h"
+#include "ArrayList.h"
 
 // default constructor
-TokenList::TokenList()
+TokenList::TokenList() : head{}, tail{}, theSize{}
 {
     std::cout << "Tokenlist default constructor is called." << std::endl;
-    this->size = 0;
-    this->head = new TNode{};  
-    this->tail = new TNode{}; 
-    this->head->next = this->tail;
 }
 
 // copy constructor
 TokenList::TokenList(const TokenList& list)
 {
     std::cout << "Tokenlist copy constructor is called." << std::endl;
-    this->size = list.size();
-    this->head = new TNode{};
-    this->tail = new TNode{};
+    this->theSize = list.size();
+    this->head = new TNode(list.front());
+    this->tail = new TNode(list.back());
 
-    TList::TNode *nodeBeingCopied = list.getHead();
-    TList::TNode *newNode = this->head;
+    TokenList::TNode *nodeBeingCopied = list.getHead();
+    TokenList::TNode *newNode = this->head;
 
     // copy the head node
     addAfter(newNode, nodeBeingCopied->theToken);
@@ -38,10 +36,10 @@ TokenList::TokenList(const TokenList& list)
 TokenList::TokenList(TokenList&& list)
 {
     std::cout << "Tokenlist move constructor is called." << std::endl;
-    this->size = list.size();
+    this->theSize = list.size();
     this->head = std::move(list.getHead());
     this->tail = std::move(list.getTail());
-    list.size = 0;
+    list.theSize = 0;
 }        
 
 // copy assignment operator
@@ -51,29 +49,29 @@ TokenList& TokenList::operator=(const TokenList& rhs)
     if (&rhs != this) 
     {
         // delete old stuff
-        TList::TNode *oldNode = this->head;
-        TList::TNode *tempNode;
+        TokenList::TNode *oldNode = this->head;
+        TokenList::TNode *tempNode;
         while (oldNode != this->tail)
         {
             tempNode = oldNode;
             oldNode = oldNode->next;
-            delete[] tempNode;
+            free(tempNode);        
         }
-        delete this->tail;
+        free(this->tail);
         
         // copy new stuff
-        this->size = rhs.size();
-        this->head = new TNode{};
-        this->tail = new TNode{};
+        this->theSize = rhs.size();
+        this->head = new TNode(rhs.front());
+        this->tail = new TNode(rhs.back());
 
-        TList::TNode *nodeBeingCopied = rhs.getHead();
-        TList::TNode *newNode = this->head;
+        TokenList::TNode *nodeBeingCopied = rhs.getHead();
+        TokenList::TNode *newNode = this->head;
 
         // copy the head node
         addAfter(newNode, nodeBeingCopied->theToken);
 
         // copy the rest of the nodes
-        while (nodeBeingCopied != list.getTail())
+        while (nodeBeingCopied != rhs.getTail())
         {   
             nodeBeingCopied = nodeBeingCopied->next;
             addAfter(newNode, nodeBeingCopied->theToken);
@@ -90,38 +88,38 @@ TokenList& TokenList::operator=(TokenList&& rhs)
     if (&rhs != this)
     {
         // delete old stuff
-        TList::TNode *oldNode = this->head;
-        TList::TNode *tempNode;
+        TokenList::TNode *oldNode = this->head;
+        TokenList::TNode *tempNode;
         while (oldNode != this->tail)
         {
             tempNode = oldNode;
             oldNode = oldNode->next;
-            delete[] tempNode;
+            free(tempNode);        
         }
-        delete this->tail;
+        free(this->tail);
 
         // move new stuff
-        this->size = list.size();
-        this->head = std::move(list.getHead());
-        this->tail = std::move(list.getTail());
-        list.size = 0;
+        this->theSize = rhs.size();
+        this->head = std::move(rhs.getHead());
+        this->tail = std::move(rhs.getTail());
+        rhs.theSize = 0;
     }
     return *this;
 }          
 
 // destructor
-~TokenList::TokenList() 
+TokenList::~TokenList() 
 {
     std::cout << "Tokenlist destructor is called." << std::endl;
-    TList::TNode *oldNode = this->head;
-    TList::TNode *tempNode;
+    TokenList::TNode *oldNode = this->head;
+    TokenList::TNode *tempNode;
     while (oldNode != this->tail)
     {
         tempNode = oldNode;
         oldNode = oldNode->next;
-        delete[] tempNode;
+        free(tempNode);        
     }
-    delete this->tail;
+    free(this->tail);
 } 
 
 // determines whether the list is empty
@@ -155,7 +153,7 @@ const Token& TokenList::front() const
 }
 
 // returns the Token at the back of this TokenList
-const Token& TokenList::back() const;
+const Token& TokenList::back() const
 {
     return this->tail->theToken;
 }
@@ -165,29 +163,30 @@ const Token& TokenList::back() const;
 // the front of the list.
 void TokenList::addAfter(TNode* p, const Token& aToken)
 {
-    TList::TNode *newNode = new TNode{aToken};
+    TokenList::TNode *newNode = new TNode(aToken);
     if (p != nullptr) 
     {
-        p.next = newNode;
+        p->next = newNode;
     } 
     else 
     {
         this->head = newNode;
+        this->tail = newNode;
     }
-    this->size = this->size + 1;
+    this->theSize++;
 }
 
 // If the list is nonempty, removes the node at the front of the list and returns true; 
 // otherwise, returns false
-bool removeFront() 
+bool TokenList::removeFront() 
 {
     if(this->head != nullptr) 
     {
-        TList::TNode *oldNode = this->head;
-        this->head = oldNode.next;
+        TokenList::TNode *oldNode = this->head;
+        this->head = oldNode->next;
         delete[] oldNode;
 
-        this->size = this->size - 1;
+        this->theSize--;
         return true;
     }
     else 
@@ -198,21 +197,21 @@ bool removeFront()
 
 // If the list is nonempty, removes the node at the end of the list and returns true; 
 // otherwise, returns false
-bool removeBack()
+bool TokenList::removeBack()
 {
     if(this->tail != nullptr) 
     {
         // get the node before tail
-        TList::TNode *oldNode = this->head;
+        TokenList::TNode *oldNode = this->head;
         while (oldNode->next != this->tail)
         {
             oldNode = oldNode->next;
         }
         delete[] this->tail;
         this->tail = oldNode;
-        this->tail.next = nullptr;
+        this->tail->next = nullptr;
 
-        this->size = this->size - 1;
+        this->theSize--;
         return true;
     }
     else 
@@ -223,21 +222,22 @@ bool removeBack()
 
 // Removes the node to which nodePtr points and returns true; 
 // otherwise, returns false.
-bool remove(TNode* nodePtr)
+bool TokenList::remove(TNode* nodePtr)
 {
     if((nodePtr != this->head) && (nodePtr != this->tail))
     {
         // get the Node after nodePtr
-        TList::TNode *nextNode = nodePtr.next;
+        TokenList::TNode *nextNode = nodePtr->next;
         // get the node before nodePtr
-        TList::TNode *oldNode = this->head;
+        TokenList::TNode *oldNode = this->head;
         while (oldNode->next != nodePtr)
         {
             oldNode = oldNode->next;
         }
-        oldNode.next = nextNode;
-        delete[] nodePtr;
-        this->size = this->size - 1;
+        oldNode->next = nextNode;
+        free(nodePtr);
+        this->theSize--;
+        return true;
     }
     else 
     {
@@ -246,66 +246,152 @@ bool remove(TNode* nodePtr)
 }
 
 // Adds a new node storing aToken to the front of the list
-void addFront(const Token& aToken)
+void TokenList::addFront(const Token& aToken)
 {
-    TList::TNode *newNode = new TNode{aToken};
-    if(this-> head != nullptr)
+    TokenList::TNode *newNode = new TNode(aToken);
+    if(this->head != nullptr)
     {
-        newNode.next = this->head;
+        newNode->next = this->head;
         this->head = newNode;
     }
     else 
     {
-        this->head = newNode;
+        this->head = this->tail = newNode;
     }
-    this->size = this->size + 1;
+    this->theSize++;
 }
 
 // Adds a new node storing aToken to the end of the list
-void addBack(const Token& aToken)
+void TokenList::addBack(const Token& aToken)
 {
-    TList::TNode *newNode = new TNode{aToken};
-    if(this-> head != nullptr)
+    TokenList::TNode *newNode = new TNode(aToken);
+    if(this->tail == nullptr)
     {
-        this->tail.next = newNode;
-        this->tail = newNode;
+        this->head = this->tail = newNode;
     }
     else 
     {
-        this->head = newNode;
+        this->tail->next = newNode;
+        this->tail = newNode;
     }
-    this->size = this->size + 1;
+    this->theSize++;
 }
 
 // determines whether aToken is in the list
-bool search(const Token& aToken) const
+bool TokenList::search(const Token& aToken) const
 {
-   TList::TNode *currentNode = this->head;
+    TokenList::TNode *currentNode = this->head;
     while (currentNode != nullptr)
     {
-        Token* currentToken = currentNode.theToken;
-        if(aToken.compare(currentToken) == 0) 
+        if(currentNode->theToken.compare(aToken) == 0) 
         {
             return true;
         }
-        currentNode = currentNode.next;
+        currentNode = currentNode->next;
     }
     return false;
 }
 
 // Adds aToken at its sorted position into the list so
 // as to maintain the ascending order of the tokens in the list
-void addSorted(const Token& aToken)
+void TokenList::addSorted(const Token& aToken)
 {
-
+    ArrayList list = aToken.getNumberList();
+    int line_number;
+    list.get(list.size() - 1, line_number); // never returns false here (why?)
+    addSorted(aToken.c_str(), line_number);
 }
 
 // Equivalent to addSorted(Token(str,lineNum));
-// but it's up to you to decide how you want to implement it.
-void addSorted(const string& str, int LineNum)
+void TokenList::addSorted(const std::string& str, int lineNumber)
 {
-
+    Token aToken(str.c_str(), lineNumber);    // create a node with str and lineNumber
+    TNode* nodePtr = lookup(aToken);          // look it up in the list
+    
+    // should aToken be the first node?
+    // lookup provides this information by returning nullptr
+    if (nodePtr == nullptr)
+    {
+        addFront(aToken);
+        return; // done
+    }
+    
+    // aToken cannot be the first token;
+    // hence, whether or not aToken is already in the list,
+    // nodePtr must point to one of the nodes in the list,
+    // including the first, last, and the nodes in between.
+    // could it be that nodePtr's token is equal to aToken?
+    if ((nodePtr->theToken).compare(aToken) == 0)
+    {
+        // yes, we have a repeated token, so we only add its line number
+        (nodePtr->theToken).addLineNumber(lineNumber);
+        return; // done
+    }
+    else
+    {
+        // we have a new token,
+        // so we add it to the list after the node nodePtr is pointing at.
+        addAfter(nodePtr, aToken);
+        return; // done
+    }
 }
 
-TNode* lookup(const Token& aToken) const;
-void print(ostream &output) const;
+// If aToken is in the list, it returns a pointer to the node whose token 
+// is equal to aToken; otherwise, it returns a pointer to the node after 
+// which aToken would be inserted in the sorted list.
+TokenList::TNode* TokenList::lookup(const Token& aToken) const
+{
+    if (head == nullptr) 
+    {
+        return nullptr; // nullptr means that aToken must be the first node
+    }
+    
+    // list has more than one node.
+    // should aToken go before the first node?
+    // that is, is aToken strictly less than the head node?
+    if (aToken.compare(head->theToken) < 0)
+    {
+        return nullptr; // nullptr means that aToken must be the first node
+    }
+    
+    // so aToken does not become the first node.
+    // We set out to locate and return either
+    // (1) a pointer to the node whose token is equal to aToken, or
+    // (2) a pointer to the node after which aToken would be inserted
+    // if the list were to remain in the sorted order.
+    TNode* prev = head;          // may or may not be the node of interest
+    TNode* current = head->next; // ->next works because head is not nullptr
+    while (current != nullptr)
+    {
+        // we know the list is sorted and there are no repeated tokens.
+        // we want to skip all the nodes that are smaller than aToken.
+        // that is, we are looking for the first node strictly larger than aToken
+        if ((current->theToken).compare(aToken) > 0)
+        {
+            return prev; // aToken goes between the prev and current nodes,
+                        // unless prev's token is equal to aToken, addSorted will sort this out!
+        }
+        // no luck! so we advance to the next node
+        prev = current;          // update prev
+        current = current->next; // again, ->next works because current is not nullptr
+    }
+    return nullptr;
+}
+
+// prints the entire list to sout
+void TokenList::print(std::ostream &output) const
+{
+    if(this->theSize  ==  0)
+    {
+        std::cout << "empty TokenList" << std::endl;
+    }   
+    else
+    {
+        TokenList::TNode *current = this->head;
+        do
+        {
+            current->theToken.print(output);
+            current = current->next;
+        } while (current != this->tail);
+    }
+}

@@ -54,7 +54,7 @@ class TokenList {
         const Token& front() const;
         const Token& back() const;
         void addSorted(const Token& aToken);
-        void addSorted(const string& str, int LineNum);
+        void addSorted(const std::string& str, int LineNum);
         bool removeFront();
         bool removeBack();
         bool search(const Token& aToken) const;

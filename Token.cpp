@@ -8,7 +8,7 @@ using namespace std;
 // default constructor
 Token::Token() 
 {
-    std::cout << "Token default constructor is called." << std::endl;
+    // std::cout << "Token default constructor is called." << std::endl;
     this->frequency = 0;
     this->cstr[0] = '\0';
 }
@@ -16,7 +16,7 @@ Token::Token()
 // explicit normal constructor
 Token::Token(const char* chars, int line_num)
 {
-    std::cout << "Token explicit normal constructor is called." << std::endl;
+    // std::cout << "Token explicit normal constructor is called." << std::endl;
     this->cstr = new char[strlen(chars)];
     for (int i = 0; i < strlen(chars); i++)
     {
@@ -29,7 +29,7 @@ Token::Token(const char* chars, int line_num)
 // copy constructor
 Token::Token(const Token& token)
 {
-    std::cout << "Token copy constructor is called." << std::endl;
+    // std::cout << "Token copy constructor is called." << std::endl;
     this->frequency = token.getFrequency();
     this->number_list = token.getNumberList();
     this->cstr = new char[token.size()];
@@ -43,7 +43,7 @@ Token::Token(const Token& token)
 // move constructor
 Token::Token(Token&& token)
 {
-    std::cout << "Token move constructor is called." << std::endl;
+    // std::cout << "Token move constructor is called." << std::endl;
     this->cstr = token.c_str();
     this->number_list = std::move(token.number_list);
     this->frequency = token.getFrequency();
@@ -54,7 +54,7 @@ Token::Token(Token&& token)
 // copy assignment operator
 Token& Token::operator=(const Token& rhs)
 {
-    std::cout << "Token copy assignment operator is called." << std::endl;
+    // std::cout << "Token copy assignment operator is called." << std::endl;
     // if the addresses are not the same, proceed with copying
     if (&rhs != this)
     {
@@ -74,7 +74,7 @@ Token& Token::operator=(const Token& rhs)
 // move assignment operator
 Token& Token::operator=(Token &&rhs)
 {
-    std::cout << "Token move assignment operator is called." << std::endl;
+    // std::cout << "Token move assignment operator is called." << std::endl;
     if (&rhs != this)
     {
         delete[] this->cstr;
@@ -90,7 +90,7 @@ Token& Token::operator=(Token &&rhs)
 // destructor
 Token::~Token()
 {
-    std::cout << "Token destructor is called." << std::endl;
+    // std::cout << "Token destructor is called." << std::endl;
     delete[] this->cstr;
 }
 
