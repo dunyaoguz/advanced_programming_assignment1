@@ -26,7 +26,7 @@ class TokenList {
     private:
         TNode* head{ nullptr };         // points to the first node in the list
         TNode* tail{ nullptr };         // points to the last node in the list
-        size_t size{ 0 };               // counts the number of nodes in the list
+        size_t theSize{ 0 };               // counts the number of nodes in the list
 
         bool remove(TNode* nodePtr);
         TNode* lookup(const Token& aToken) const;
@@ -47,6 +47,9 @@ class TokenList {
         // member functions
         bool empty() const;
         size_t size() const;
+        TNode *getHead() const;
+        TNode *getTail() const;
+
         void print(std::ostream &output) const;
         const Token& front() const;
         const Token& back() const;

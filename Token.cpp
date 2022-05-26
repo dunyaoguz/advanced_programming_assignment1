@@ -8,13 +8,15 @@ using namespace std;
 // default constructor
 Token::Token() 
 {
+    std::cout << "Token default constructor is called." << std::endl;
     this->frequency = 0;
     this->cstr[0] = '\0';
 }
 
-// normal constructor
+// explicit normal constructor
 Token::Token(const char* chars, int line_num)
 {
+    std::cout << "Token explicit normal constructor is called." << std::endl;
     this->cstr = new char[strlen(chars)];
     for (int i = 0; i < strlen(chars); i++)
     {
