@@ -15,13 +15,18 @@ class Dictionary
     
     public:
         Dictionary(const string& filename);
-        void processToken(const string& token, int linenum) ;
-        void print(ostream& out) const;
         Dictionary() = delete;                                  // no default ctor
         ~Dictionary() = default;                                // default dtor
         Dictionary(const Dictionary& ) = default;               // copy ctor
-        Dictionary( Dictionary&&) = default;                    // move ctor
+        Dictionary(Dictionary&&) = default;                     // move ctor
         Dictionary& operator=(const Dictionary&) = default;     // copy assignment
         Dictionary& operator=( Dictionary&&) = default;         // move assignment
+
+        void processToken(const string& token, int linenum);
+        void print(std::ostream& out) const;
+
+        string getFilename() const;
+        TokenList getTokenListBuckets() const;
+        size_t getBucketIndex(const string& token) const;
 };
 #endif

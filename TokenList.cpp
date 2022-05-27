@@ -1,18 +1,16 @@
 #include <iostream>
-#include "Token.h"
 #include "TokenList.h"
-#include "ArrayList.h"
 
 // default constructor
 TokenList::TokenList() : head{}, tail{}, theSize{}
 {
-    std::cout << "Tokenlist default constructor is called." << std::endl;
+    // std::cout << "Tokenlist default constructor is called." << std::endl;
 }
 
 // copy constructor
 TokenList::TokenList(const TokenList& list)
 {
-    std::cout << "Tokenlist copy constructor is called." << std::endl;
+    // std::cout << "Tokenlist copy constructor is called." << std::endl;
     this->theSize = list.size();
     this->head = new TNode(list.front());
     this->tail = new TNode(list.back());
@@ -35,7 +33,7 @@ TokenList::TokenList(const TokenList& list)
 // move constructor
 TokenList::TokenList(TokenList&& list)
 {
-    std::cout << "Tokenlist move constructor is called." << std::endl;
+    // std::cout << "Tokenlist move constructor is called." << std::endl;
     this->theSize = list.size();
     this->head = std::move(list.getHead());
     this->tail = std::move(list.getTail());
@@ -45,7 +43,7 @@ TokenList::TokenList(TokenList&& list)
 // copy assignment operator
 TokenList& TokenList::operator=(const TokenList& rhs)
 {
-    std::cout << "Tokenlist copy assignment operator is called." << std::endl;
+    // std::cout << "Tokenlist copy assignment operator is called." << std::endl;
     if (&rhs != this) 
     {
         // delete old stuff
@@ -84,7 +82,7 @@ TokenList& TokenList::operator=(const TokenList& rhs)
 // move assignment operator
 TokenList& TokenList::operator=(TokenList&& rhs)
 {
-    std::cout << "Tokenlist move assignment operator is called." << std::endl;
+    // std::cout << "Tokenlist move assignment operator is called." << std::endl;
     if (&rhs != this)
     {
         // delete old stuff
@@ -110,7 +108,7 @@ TokenList& TokenList::operator=(TokenList&& rhs)
 // destructor
 TokenList::~TokenList() 
 {
-    std::cout << "Tokenlist destructor is called." << std::endl;
+    // std::cout << "Tokenlist destructor is called." << std::endl;
     TokenList::TNode *oldNode = this->head;
     TokenList::TNode *tempNode;
     while (oldNode != this->tail)
@@ -304,7 +302,7 @@ void TokenList::addSorted(const Token& aToken)
 {
     ArrayList list = aToken.getNumberList();
     int line_number;
-    list.get(list.size() - 1, line_number); // never returns false here (why?)
+    list.get(list.size() - 1, line_number);
     addSorted(aToken.c_str(), line_number);
 }
 
