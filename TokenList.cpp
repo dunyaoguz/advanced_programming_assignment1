@@ -166,6 +166,8 @@ void TokenList::addAfter(TNode* p, const Token& aToken)
     TokenList::TNode *newNode = new TNode(aToken);
     if (p != nullptr) 
     {
+        // new Node points to what p was previously pointing to
+        newNode->next = p->next;
         p->next = newNode;
     } 
     else 
@@ -341,39 +343,35 @@ void TokenList::addSorted(const std::string& str, int lineNumber)
 // which aToken would be inserted in the sorted list.
 TokenList::TNode* TokenList::lookup(const Token& aToken) const
 {
+    // nullptr means that aToken must be the first node
     if (head == nullptr) 
     {
-        return nullptr; // nullptr means that aToken must be the first node
+        return nullptr; 
     }
-    
-    // list has more than one node.
-    // should aToken go before the first node?
-    // that is, is aToken strictly less than the head node?
+    // aToken should be placed at head 
     if (aToken.compare(head->theToken) < 0)
     {
-        return nullptr; // nullptr means that aToken must be the first node
+        return nullptr; 
     }
-    
-    // so aToken does not become the first node.
-    // We set out to locate and return either
-    // (1) a pointer to the node whose token is equal to aToken, or
-    // (2) a pointer to the node after which aToken would be inserted
-    // if the list were to remain in the sorted order.
-    TNode* prev = head;          // may or may not be the node of interest
-    TNode* current = head->next; // ->next works because head is not nullptr
-    while (current != nullptr)
+
+    // aToken is equal to head
+    if (aToken.compare(head->theToken) == 0)
     {
-        // we know the list is sorted and there are no repeated tokens.
-        // we want to skip all the nodes that are smaller than aToken.
-        // that is, we are looking for the first node strictly larger than aToken
+        return this->head; 
+    }
+
+    TokenList::TNode* prev = head;          
+    TokenList::TNode* current = head->next;
+    
+    while (current != nullptr)
+    {   
+        std::cout << "iter" << std::endl;
         if ((current->theToken).compare(aToken) > 0)
-        {
-            return prev; // aToken goes between the prev and current nodes,
-                        // unless prev's token is equal to aToken, addSorted will sort this out!
+        {   
+            return prev;
         }
-        // no luck! so we advance to the next node
-        prev = current;          // update prev
-        current = current->next; // again, ->next works because current is not nullptr
+        prev = current;        
+        current = current->next;
     }
     return nullptr;
 }
@@ -388,10 +386,12 @@ void TokenList::print(std::ostream &output) const
     else
     {
         TokenList::TNode *current = this->head;
+        int counter = 0;
         do
         {
             current->theToken.print(output);
             current = current->next;
-        } while (current != this->tail);
+            counter++;
+        } while (theSize != counter);
     }
 }
