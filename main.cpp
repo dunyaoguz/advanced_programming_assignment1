@@ -3,7 +3,7 @@
 
 int main()
 {
-    const char *filename = "input.txt";
+    const char *filename = "input_file_A1.txt";
 
     Dictionary dunyasDictionary{filename};
 
