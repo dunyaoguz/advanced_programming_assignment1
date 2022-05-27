@@ -169,6 +169,10 @@ void TokenList::addAfter(TNode* p, const Token& aToken)
         // new Node points to what p was previously pointing to
         newNode->next = p->next;
         p->next = newNode;
+        if(this->tail == p) 
+        {
+            this->tail = newNode;
+        }
     } 
     else 
     {
@@ -304,37 +308,25 @@ void TokenList::addSorted(const Token& aToken)
     addSorted(aToken.c_str(), line_number);
 }
 
-// Equivalent to addSorted(Token(str,lineNum));
 void TokenList::addSorted(const std::string& str, int lineNumber)
 {
-    Token aToken(str.c_str(), lineNumber);    // create a node with str and lineNumber
-    TNode* nodePtr = lookup(aToken);          // look it up in the list
+    Token aToken(str.c_str(), lineNumber);              // create a node with str and lineNumber
+    TokenList::TNode* nodePtr = lookup(aToken);          // look it up in the list
     
-    // should aToken be the first node?
-    // lookup provides this information by returning nullptr
+    // if nullptr, should be first node
     if (nodePtr == nullptr)
     {
         addFront(aToken);
-        return; // done
     }
-    
-    // aToken cannot be the first token;
-    // hence, whether or not aToken is already in the list,
-    // nodePtr must point to one of the nodes in the list,
-    // including the first, last, and the nodes in between.
-    // could it be that nodePtr's token is equal to aToken?
-    if ((nodePtr->theToken).compare(aToken) == 0)
+    // if same node, should add line number
+    else if ((aToken).compare(nodePtr->theToken) == 0)
     {
-        // yes, we have a repeated token, so we only add its line number
         (nodePtr->theToken).addLineNumber(lineNumber);
-        return; // done
     }
+    // else, add new node where appropriate
     else
     {
-        // we have a new token,
-        // so we add it to the list after the node nodePtr is pointing at.
         addAfter(nodePtr, aToken);
-        return; // done
     }
 }
 
@@ -344,36 +336,24 @@ void TokenList::addSorted(const std::string& str, int lineNumber)
 TokenList::TNode* TokenList::lookup(const Token& aToken) const
 {
     // nullptr means that aToken must be the first node
-    if (head == nullptr) 
-    {
-        return nullptr; 
-    }
-    // aToken should be placed at head 
-    if (aToken.compare(head->theToken) < 0)
+    if (head == nullptr || (aToken).compare(this->head->theToken) < 0) 
     {
         return nullptr; 
     }
 
-    // aToken is equal to head
-    if (aToken.compare(head->theToken) == 0)
-    {
-        return this->head; 
-    }
-
-    TokenList::TNode* prev = head;          
-    TokenList::TNode* current = head->next;
+    TokenList::TNode* prev = this->head;          
+    TokenList::TNode* current = this->head->next;
     
     while (current != nullptr)
-    {   
-        std::cout << "iter" << std::endl;
+    {
         if ((current->theToken).compare(aToken) > 0)
         {   
             return prev;
         }
-        prev = current;        
+        prev = current;
         current = current->next;
-    }
-    return nullptr;
+    } 
+    return this->tail; 
 }
 
 // prints the entire list to sout

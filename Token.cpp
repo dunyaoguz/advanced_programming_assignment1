@@ -138,7 +138,7 @@ int Token::compare(const Token& aToken) const
 {
     if(strcmp(this->cstr, aToken.c_str()) < 0)
     {
-        return 1;
+        return -1;
     }
     else if(strcmp(this->cstr, aToken.c_str()) == 0) 
     {
